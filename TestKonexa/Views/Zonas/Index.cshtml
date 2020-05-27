@@ -1,0 +1,54 @@
+﻿@model IEnumerable<TestKonexa.Models.Zona>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Zonas</h1>
+
+<p>
+    <a asp-action="CrearZona">Crear nueva</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Nombre)
+            </th>
+            <th>
+                Nombre Corto
+            </th>
+            <th>
+                Código
+            </th>
+            <th>
+                Responsable Zonal
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nombre)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NombreCorto)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Codigo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ResponsableZonal.Nombre)
+                </td>
+                <td>
+                    <a asp-action="EditarZona" asp-route-id="@item.Id">Editar</a> |
+                    <a asp-action="Detalle" asp-route-id="@item.Id">Detalle</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Eliminar</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

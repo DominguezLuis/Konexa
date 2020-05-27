@@ -1,0 +1,82 @@
+﻿@model TestKonexa.Models.ZonaCrear
+@{
+    ViewData["Title"] = "Detalle";
+}
+
+<h1>Detalle</h1>
+<hr />
+<div class="row">
+    <div class="col-md-12">
+        <form asp-action="Detalle" id="formulario" name="formulario">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="Nombre" class="control-label"></label>
+                <input asp-for="Nombre" class="form-control" required readonly />
+                <span asp-validation-for="Nombre" class="text-danger"></span>
+            </div>
+            <div class="row">
+                <div class="form-group col-md-6">
+                    <label class="control-label">Nombre Corto</label>
+                    <input asp-for="NombreCorto" class="form-control" required readonly />
+                    <span asp-validation-for="NombreCorto" class="text-danger"></span>
+                </div>
+
+                <div class="form-group col-md-6">
+                    <label class="control-label">Código</label>
+                    <input asp-for="Codigo" class="form-control" required readonly/>
+                    <span asp-validation-for="Codigo" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label">Observación</label>
+                <textarea asp-for="Observacion" class="form-control" readonly></textarea>
+                <span asp-validation-for="Observacion" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label">Responsable Zonal</label>
+                <select asp-for="ResponsableZonal" class="form-control" asp-items="ViewBag.ResponsableZonal" required disabled></select>
+            </div>
+
+            <fieldset class="border p-2">
+                <legend class="w-auto">Sucursales</legend>
+                <div class="row">
+                    <div class="col-md-5">
+                        <fieldset class="border p-2">
+                            <legend class="w-auto">Cabecera</legend>
+                            <div class="form-group">
+                                <input asp-for="DesCabecera" type="text" id="DesCabecera" required class="w-100 form-control readonly" disabled/>
+                                <input asp-for="Cabecera" id="IdCabecera" class="form-control" hidden />
+                            </div>
+                        </fieldset>
+                        <input type="button" id="up" value="^" style=" margin: auto;  display: block;" class="mt-2" disabled/>
+                        <div class="form-group">
+                            <label class="control-label">Sucursales seleccionada</label>
+                            <select id="sbOne" asp-for="SucursalesSeleccionada" class="form-control" asp-items="ViewBag.sucursalesSeleccionada" multiple></select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-2" style="display: flex; align-items: flex-end; text-align:center">
+                        <input type="button" id="left" value="<" style="margin-bottom:30%; margin-left:25%" class="mr-2" disabled/>
+                        <input type="button" id="right" value=">" style="margin-bottom:30%" disabled/>
+
+                    </div>
+                    <div class="col-md-5">
+                        <div class="form-group" style="height:92%">
+                            <label class="control-label">Sucursales disponible</label>
+                            <select id="sbTwo" asp-for="SucursalesDisponible" class="form-control" asp-items="ViewBag.sucursalDisponible" style="height:92%"></select>                
+                        </div>
+                    </div>
+
+                </div>
+            </fieldset>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="EditarZona" asp-route-id="@Model.Id">Editar</a> |
+    <a asp-action="Index">Regresar</a>
+</div>

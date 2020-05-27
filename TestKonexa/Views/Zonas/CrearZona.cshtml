@@ -1,0 +1,145 @@
+﻿@model TestKonexa.Models.ZonaCrear
+@{
+    ViewData["Title"] = "Crear Zona";
+}
+
+<h1>Crear Zona</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-12">
+        <form asp-action="Create" id="formulario" name="formulario">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Nombre" class="control-label"></label>
+                <input asp-for="Nombre" class="form-control" required />
+                <span asp-validation-for="Nombre" class="text-danger"></span>
+            </div>
+            <div class="row">
+                <div class="form-group col-md-6">
+                    <label class="control-label">Nombre Corto</label>
+                    <input asp-for="NombreCorto" class="form-control" required />
+                    <span asp-validation-for="NombreCorto" class="text-danger"></span>
+                </div>
+
+                <div class="form-group col-md-6">
+                    <label class="control-label">Código</label>
+                    <input asp-for="Codigo" class="form-control" required />
+                    <span asp-validation-for="Codigo" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label">Observación</label>
+                <textarea asp-for="Observacion" class="form-control"></textarea>
+                <span asp-validation-for="Observacion" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label">Responsable Zonal</label>
+                <select asp-for="ResponsableZonal" class="form-control" asp-items="ViewBag.ResponsableZonal" required></select>
+            </div>
+
+            <fieldset class="border p-2">
+                <legend class="w-auto">Sucursales</legend>
+                <div class="row">
+                    <div class="col-md-5">
+                        <fieldset class="border p-2">
+                            <legend class="w-auto">Cabecera</legend>
+                            <div class="form-group">
+                                <input  type="text" id="DesCabecera" required class="w-100 form-control readonly" />
+                                <input asp-for="Cabecera" id="IdCabecera" class="form-control" hidden />
+                            </div>
+                        </fieldset>
+                        <input type="button" id="up" value="^" style=" margin: auto;  display: block;" class="mt-2" />
+                        <div class="form-group">
+                            <label class="control-label">Sucursales seleccionada</label>
+                            <select id="sbOne" asp-for="SucursalesSeleccionada" class="form-control" multiple></select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-2" style="display: flex; align-items: flex-end; text-align:center">
+                            <input type="button" id="left" value="<"  style="margin-bottom:30%; margin-left:25%" class="mr-2"/>
+                            <input type="button" id="right" value=">" style="margin-bottom:30%" />
+                     
+                    </div>
+                    <div class="col-md-5">
+                        <div class="form-group" style="height:92%">
+                            <label class="control-label">Sucursales disponible</label>
+                            <select id="sbTwo" asp-for="SucursalesDisponible" class="form-control" asp-items="ViewBag.sucursalDisponible" style="height:92%"></select>
+                        </div>
+                    </div>
+
+                </div>
+            </fieldset>
+
+                <div class="form-group mt-1">
+                    <input type="submit" id="submit" value="Crear" class="btn btn-primary"/>
+                </div>
+</form>
+    </div>
+</div>
+
+
+<div>
+    <a asp-action="Index">Regresar</a>
+</div>
+
+
+@section Scripts {
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            function moveItems(origin, dest) {
+                $(origin).find(':selected').appendTo(dest);
+            }
+
+            $('#left').click(function () {
+                moveItems('#sbTwo', '#sbOne');
+                $("#sbOne option").prop("selected", false);
+            });
+
+            $('#right').on('click', function () {
+                verificaCabecera();
+                moveItems('#sbOne', '#sbTwo');
+                $("#sbTwo option").prop("selected", false);
+
+            });
+
+            $('#up').on('click', function () {
+
+                console.log($('#sbOne').find(':selected').val());
+
+                if ($('#sbOne').find(':selected').length == 1) {
+                    $('#DesCabecera').val($('#sbOne').find(':selected').text());
+                    $('#IdCabecera').val($('#sbOne').find(':selected').val());
+                }
+            });
+
+            $('#submit').on('click', function () {
+                $("#sbOne option").prop("selected", true);
+                $('#formulario').submit();
+            });
+
+            $(".readonly").keydown(function (e) {
+                e.preventDefault();
+            });
+
+            function verificaCabecera() {
+
+                $('#sbOne option').each(function () {
+                    if (this.selected && ($(this).val() == $('#IdCabecera').val())) {
+                        $('#IdCabecera').val('');
+                        $('#DesCabecera').val('');
+                    }
+
+                });
+            }
+
+        });
+    </script>
+}
+
+
+
